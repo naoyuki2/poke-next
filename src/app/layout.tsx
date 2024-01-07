@@ -3,7 +3,6 @@ import { Noto_Sans_JP } from 'next/font/google'
 import './globals.css'
 import Header from './components/Header'
 import { Suspense } from 'react'
-import LoadingSpinner from './loading'
 
 const notoSansJP = Noto_Sans_JP({ subsets: ['latin'], weight: ['400'] })
 
@@ -21,7 +20,7 @@ export default function RootLayout({
         <html lang="ja">
             <body className={notoSansJP.className}>
                 <Header />
-                <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>
+                {children}
             </body>
         </html>
     )

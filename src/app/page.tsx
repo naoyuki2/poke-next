@@ -1,12 +1,12 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { getAllPokemon, getPokemon } from './api/pokemon/route'
+import { useEffect, useState } from 'react'
+import LoadingSpinner from './loading'
+import { getAllPokemon, getPokemon } from './utils/pokemon'
 import { NamedAPIResource, Pokemon } from 'pokenode-ts'
 import Card from './components/Card'
-import LoadingSpinner from './loading'
 
-export default function Home() {
+const App = () => {
     const initialURL = 'https://pokeapi.co/api/v2/pokemon'
 
     const [loading, setLoading] = useState<boolean>(true)
@@ -26,15 +26,7 @@ export default function Home() {
         fetchPokemonData()
     }, [])
 
-    const handlePage = async (url: string) => {
-        setLoading(true)
-        const data = await getAllPokemon(url)
-        await loadPokemon(data.results)
-        setNextURL(data.next!)
-        setPrevURL(data.previous!)
-        setLoading(false)
-    }
-
+    //全てのポケモンの詳細なデータを取得するためにPromise.allを使う
     const loadPokemon = async (data: NamedAPIResource[]) => {
         const _pokemonData = await Promise.all(
             data.map(async (pokemon: NamedAPIResource) => {
@@ -45,15 +37,24 @@ export default function Home() {
         setPokemonData(_pokemonData)
     }
 
+    const handlePage = async (url: string) => {
+        setLoading(true)
+        const data = await getAllPokemon(url)
+        await loadPokemon(data.results)
+        setNextURL(data.next!)
+        setPrevURL(data.previous!)
+        setLoading(false)
+    }
+
     return (
-        <div className="bg-gray-300 p-4">
+        <div className="bg-gray-300">
             {loading ? (
                 <div className="h-screen w-screen flex justify-center items-center">
                     <LoadingSpinner />
                 </div>
             ) : (
                 <>
-                    <div className="grid grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-5">
+                    <div className="grid grid-cols-3 gap-4 p-3 md:grid-cols-4 lg:grid-cols-5">
                         {pokemonData.map((pokemon: Pokemon, i: number) => {
                             return <Card key={i} pokemon={pokemon} />
                         })}
@@ -85,3 +86,5 @@ export default function Home() {
         </div>
     )
 }
+
+export default App
