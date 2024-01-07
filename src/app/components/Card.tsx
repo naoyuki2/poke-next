@@ -15,7 +15,6 @@ const Card = ({ pokemon }: CardProps) => {
                     alt="pokemon"
                     src={pokemon.sprites.front_default!}
                     className="mx-auto"
-                    priority
                 />
             </div>
             <h3>
