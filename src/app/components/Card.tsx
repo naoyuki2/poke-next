@@ -10,26 +10,9 @@ const Card = ({ pokemon }: CardProps) => {
             <div>
                 <img src={pokemon.sprites.front_default!} className="mx-auto" />
             </div>
-            <h3>{pokemon.name}</h3>
-            <div>
-                <div>タイプ</div>
-                {pokemon.types.map((type, i) => (
-                    <div key={i}>
-                        <span>{type.type.name}</span>
-                    </div>
-                ))}
-            </div>
-            <div>
-                <div>
-                    <p>重さ：{pokemon.weight}</p>
-                </div>
-                <div>
-                    <p>高さ：{pokemon.height}</p>
-                </div>
-                <div>
-                    <p>アビリティ：{pokemon.abilities[0].ability.name}</p>
-                </div>
-            </div>
+            <h3>
+                No.{pokemon.id} {pokemon.name}
+            </h3>
         </div>
     )
 }
